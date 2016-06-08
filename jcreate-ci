@@ -30,18 +30,15 @@ mkdir $1
 cd $1
 
 # download CI
-curl -Lo "temp.zip" https://github.com/bcit-ci/CodeIgniter/archive/3.0.0.zip; unzip temp.zip; rm temp.zip;
-mv CodeIgniter-3.0.0/* .
-rmdir CodeIgniter-3.0.0
+curl -Lo "temp.zip" https://github.com/bcit-ci/CodeIgniter/archive/3.0.6.zip; unzip temp.zip; rm temp.zip;
+mv CodeIgniter-3.0.6/* .
+rm -r CodeIgniter-3.0.6
 
 # download HMVC
-curl -Lo "temp.zip" https://bitbucket.org/wiredesignz/codeigniter-modular-extensions-hmvc/get/53edddfc167e.zip; unzip temp.zip; rm temp.zip;
+curl -Lo "temp.zip" https://bitbucket.org/wiredesignz/codeigniter-modular-extensions-hmvc/get/f77a3fc9a6fd.zip; unzip temp.zip; rm temp.zip;
 
 # download native session
 curl -Lo "temp.zip" https://github.com/atomicon/codeigniter-native-session/archive/master.zip; unzip temp.zip; rm temp.zip;
-
-#download facebook sdk
-curl -Lo "temp.zip" https://github.com/facebook/facebook-php-sdk-v4/archive/4.0-dev.zip; unzip temp.zip; rm temp.zip;
 
 # download html5boilerplate
 curl -Lo "temp.zip" https://github.com/h5bp/html5-boilerplate/archive/master.zip; unzip temp.zip; rm temp.zip;
@@ -59,8 +56,8 @@ sed -i.bak 's/src="js/src="assets\/js/g' application/views/main_layout.php
 sed -i.bak 's/\<p\>Hello world! This is HTML5 Boilerplate.\<\/p\>/\<?php echo $module; ?\>/g' application/views/main_layout.php
 
 # install HMVC
-mv wiredesignz-codeigniter-modular-extensions-hmvc-53edddfc167e/core/* application/core/
-mv wiredesignz-codeigniter-modular-extensions-hmvc-53edddfc167e/third_party/MX/ application/third_party/
+mv wiredesignz-codeigniter-modular-extensions-hmvc-f77a3fc9a6fd/core/* application/core/
+mv wiredesignz-codeigniter-modular-extensions-hmvc-f77a3fc9a6fd/third_party/MX/ application/third_party/
 mkdir application/modules
 mkdir application/modules/home
 mkdir application/modules/home/controllers
@@ -84,14 +81,10 @@ sed -i.bak "s/'index.php';/'';/g" application/config/config.php
 mv codeigniter-native-session-master/config/session.php application/config/
 mv codeigniter-native-session-master/libraries/MY_Session.php application/libraries/
 
-# install facebook sdk
-mv facebook-php-sdk-v4-4.0-dev/src/* application/libraries/
-
 # delete files
 rm -r codeigniter-native-session-master
-rm -r facebook-php-sdk-v4-4.0-dev
 rm -r html5-boilerplate-master
-rm -r wiredesignz-codeigniter-modular-extensions-hmvc-53edddfc167e
+rm -r wiredesignz-codeigniter-modular-extensions-hmvc-f77a3fc9a6fd
 
 rm license.txt
 rm -r user_guide
