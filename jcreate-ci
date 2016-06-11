@@ -1,29 +1,28 @@
 #!/bin/bash
 
-#	Script to download and set CodeIgniter with:#
-#	- HMVC
-#	- CI Native Session
-#	- Facebook PHP SDK
-#	- HTML5 Boilerplate
+# Script to download and set CodeIgniter with:#
+# - HMVC
+# - CI Native Session
+# - HTML5 Boilerplate
 
-#	My upgrades:
-#	- Change script name
-#	- Updated versions of ci and plugins
-#	- .htaccess to remo index.php
-#	- Default controller home, ready to use
-#	- Main Layout ready to use
-#	
-# 	Official repository https://github.com/josemato/jcreate-ci. 
-#	More info in http://josemato.name/instalar-codeigniter-con-un-clic
+# My upgrades:
+# - Change script name
+# - Updated versions of ci and plugins
+# - .htaccess to remo index.php
+# - Default controller home, ready to use
+# - Main Layout ready to use
+# 
+#   Official repository https://github.com/josemato/jcreate-ci. 
+# More info in http://josemato.name/instalar-codeigniter-con-un-clic
 
 if [ "$1" = "" ]; then
-	echo "Error: Especifica el nombre del proyecto"
-	exit
+  echo "Error: Especifica el nombre del proyecto"
+  exit
 fi
 
 if [ -d "$1" ]; then
-	echo "Error: El proyecto ya existe"
-	exit
+  echo "Error: El proyecto ya existe"
+  exit
 fi
 
 mkdir $1
@@ -42,6 +41,9 @@ curl -Lo "temp.zip" https://github.com/atomicon/codeigniter-native-session/archi
 
 # download html5boilerplate
 curl -Lo "temp.zip" https://github.com/h5bp/html5-boilerplate/archive/master.zip; unzip temp.zip; rm temp.zip;
+
+# download dynamic files
+curl -Lo "temp.zip" https://github.com/miguel-ra/codeigniter-dynamic-assets-load-helper/archive/master.zip; unzip temp.zip; rm temp.zip;
 
 
 # create assets resources
@@ -64,7 +66,7 @@ mkdir application/modules/home/controllers
 mkdir application/modules/home/views
 mv application/controllers/welcome.php application/modules/home/controllers/Home.php
 rm application/views/welcome_message.php 
-echo '<p>Hello world! This is HTML5 Boilerplate.</p>' > application/modules/home/views/main.php
+echo '<p class="text-center">Hello world!</p>' > application/modules/home/views/main.php
 
 # modify home controller to work with HMVC and master view
 sed -i.bak "s/\$this->load->view('welcome_message');/\$view = 'main';|\$data_module = '';||\$data['module'] = \$this->load->view(\$view, \$data_module, true);|\$this->load->view('main_layout', \$data);/g" application/modules/home/controllers/Home.php
@@ -81,10 +83,21 @@ sed -i.bak "s/'index.php';/'';/g" application/config/config.php
 mv codeigniter-native-session-master/config/session.php application/config/
 mv codeigniter-native-session-master/libraries/MY_Session.php application/libraries/
 
+# install codeigniter-dynamic-assets-load-helper-master
+
+mv codeigniter-dynamic-assets-load-helper-master/helpers/load_helper.php application/helpers/
+mv codeigniter-dynamic-assets-load-helper-master/config/load.php application/config/
+mv codeigniter-dynamic-assets-load-helper-master/config/autoload.php application/config/
+sed -i.bak "s#</head>#€    <?php echo print_header(); ?>€€</head>#" application/views/main_layout.php
+sed -i.bak "s#</body>#€    <?php echo print_footer(); ?>€€</body>#" application/views/main_layout.php
+sed -e $'s/€/\\\n\t\t/g' -i.bak application/views/main_layout.php
+
+
 # delete files
 rm -r codeigniter-native-session-master
 rm -r html5-boilerplate-master
 rm -r wiredesignz-codeigniter-modular-extensions-hmvc-f77a3fc9a6fd
+rm -r codeigniter-dynamic-assets-load-helper-master/
 
 rm license.txt
 rm -r user_guide
@@ -98,11 +111,11 @@ rm application/config/*.bak
 
 # create .htaccess to remote index.php in the URL
 echo '<IfModule mod_rewrite.c>' > .htaccess
-echo '	RewriteEngine On' >> .htaccess
-echo '	RewriteBase /' >> .htaccess
-echo '	RewriteRule ^index.php$ - [L]' >> .htaccess
-echo '	RewriteCond %{REQUEST_FILENAME} !-f' >> .htaccess
-echo '	RewriteCond %{REQUEST_FILENAME} !-d' >> .htaccess
-echo '	RewriteRule . /index.php [L]' >> .htaccess
+echo '  RewriteEngine On' >> .htaccess
+echo '  RewriteBase /' >> .htaccess
+echo '  RewriteRule ^index.php$ - [L]' >> .htaccess
+echo '  RewriteCond %{REQUEST_FILENAME} !-f' >> .htaccess
+echo '  RewriteCond %{REQUEST_FILENAME} !-d' >> .htaccess
+echo '  RewriteRule . /index.php [L]' >> .htaccess
 echo '</IfModule>' >> .htaccess
 

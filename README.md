@@ -3,13 +3,12 @@
 <ul>
 <li>HMVC</li>
 <li>CI Native Session</li>
-<li>Facebook PHP SDK</li>
 <li>HTML5 Boilerplate</li>
 </ul>
 <p>My upgrades:</p>
 <ul>
 <li>Updated versions of ci and plugins</li>
-<li>.htaccess to remo index.php</li>
+<li>.htaccess to remove index.php</li>
 <li>Default controller home, ready to use </li>
 <li>Main Layout ready to use</li>
 </ul>
