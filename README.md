@@ -11,6 +11,7 @@
 <li>.htaccess to remove index.php</li>
 <li>Default controller home, ready to use </li>
 <li>Main Layout ready to use</li>
+<li>Helper - Dynamic assets load</li>
 </ul>
 <p>Official repository <a href="https://github.com/josemato/jcreate-ci">https://github.com/josemato/jcreate-ci</a>. <br> 
 More info in <a href="http://josemato.name/instalar-codeigniter-con-un-clic">http://josemato.name/instalar-codeigniter-con-un-clic</a></p>
